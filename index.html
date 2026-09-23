@@ -552,7 +552,7 @@
     let currentQuestions = [];
     let currentIndex = 0;
     let currentScore = 0;
-       let currentUser = {
+    let currentUser = {
       name: "",
       school: "",
       grade: "",
@@ -610,7 +610,9 @@
         btn.onclick = () => selectOption(idx, btn);
         optionsBox.appendChild(btn);
       });
-      function selectOption(selectedIdx, btnElement) {
+    }
+
+    function selectOption(selectedIdx, btnElement) {
       const q = currentQuestions[currentIndex];
       const buttons = document.getElementById("options-container").querySelectorAll("button");
       buttons.forEach(b => b.disabled = true);
@@ -708,7 +710,9 @@
 
       document.getElementById("reg-screen").classList.add("hidden");
       document.getElementById("leaderboard-screen").classList.remove("hidden");
-    }function backToHome() {
+    }
+
+    function backToHome() {
       document.getElementById("leaderboard-screen").classList.add("hidden");
       document.getElementById("result-screen").classList.add("hidden");
       document.getElementById("quiz-screen").classList.add("hidden");
@@ -787,7 +791,4 @@
   </script>
 </body>
 </html>
-      
-    }
 
-    
