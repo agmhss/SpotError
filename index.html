@@ -4,9 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Grammar Ninja 🎯 Spot the Error</title>
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
   <style>
     body { font-family: 'Poppins', sans-serif; }
@@ -74,20 +72,16 @@
         <p id="sentence-prompt" class="text-lg font-bold text-slate-800 leading-snug"></p>
       </div>
 
-      <div id="options-container" class="grid grid-cols-1 gap-2.5">
-        <!-- Option buttons dynamically generated -->
-      </div>
+      <div id="options-container" class="grid grid-cols-1 gap-2.5"></div>
 
-      <div id="explanation-box" class="hidden p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-xs font-medium text-amber-900 leading-relaxed">
-        <!-- Explanation on click -->
-      </div>
+      <div id="explanation-box" class="hidden p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-xs font-medium text-amber-900 leading-relaxed"></div>
 
       <button id="next-btn" onclick="nextQuestion()" class="hidden w-full bg-indigo-600 text-white font-bold py-3 rounded-2xl shadow hover:bg-indigo-700">
         Next Question ➡️
       </button>
     </section>
 
-    <!-- SECTION 3: RESULT & CUMULATIVE STATS -->
+    <!-- SECTION 3: RESULT & STATS -->
     <section id="result-screen" class="hidden text-center space-y-5">
       <div class="text-5xl" id="trophy-icon">🎉</div>
       <h2 class="text-2xl font-black text-gray-800" id="result-title">Great Job!</h2>
@@ -121,9 +115,7 @@
     <!-- SECTION 4: LEADERBOARD -->
     <section id="leaderboard-screen" class="hidden space-y-4">
       <h2 class="text-2xl font-black text-center text-purple-700">🏆 Top Detectives</h2>
-      <div class="max-h-64 overflow-y-auto space-y-2 pr-1" id="leaderboard-list">
-        <!-- Dynamically injected -->
-      </div>
+      <div class="max-h-64 overflow-y-auto space-y-2 pr-1" id="leaderboard-list"></div>
       <button onclick="backToHome()" class="w-full bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl hover:bg-slate-300">
         Back
       </button>
@@ -131,13 +123,9 @@
 
   </div>
 
-  <!-- Hidden Canvas for Certificate Generation -->
   <canvas id="certCanvas" width="1000" height="700" class="hidden"></canvas>
 
   <script>
-    const combinedQuestionBank = [...questionBank, ...additionalQuestions];
-    
-    // Question Bank: Easy and Medium Error Spotting for 12-16 yrs
     const questionBank = [
       {
         sentence: "Neither of the boys were present at the assembly this morning.",
@@ -150,7 +138,7 @@
         sentence: "She didn't knew that the library was closed on Sundays.",
         options: ["She didn't", "knew that", "was closed", "No Error"],
         answer: 1,
-        explanation: "After auxiliary 'did / didn't', use the base form of verb: 'didn't know'.",
+        explanation: "After auxiliary 'did / didn't', use the base form of the verb: 'didn't know'.",
         difficulty: "Easy"
       },
       {
@@ -184,8 +172,8 @@
       {
         sentence: "Every student must bring their own compass for the geometry exam.",
         options: ["Every student", "must bring", "their own compass", "No Error"],
-        answer: 2,
-        explanation: "Traditionally, 'Every student' is singular and takes 'his or her' (or colloquially accepted 'their' in informal English; in prescriptive tests, it's flagged).",
+        answer: 3,
+        explanation: "Modern standard grammar accepts singular 'their' with distributive pronouns like 'every student'. No Error.",
         difficulty: "Medium"
       },
       {
@@ -209,14 +197,11 @@
         explanation: "In hypothetical/subjunctive conditionals, use 'were' ('If I were you').",
         difficulty: "Medium"
       },
-          // 50 Additional Questions for 12-16 Years (Easy & Medium)
-    const additionalQuestions = [
-      // --- Subject-Verb Agreement & Quantifiers ---
       {
         sentence: "Bread and butter are his favorite breakfast every single morning.",
         options: ["Bread and butter", "are his favorite", "breakfast every", "No Error"],
         answer: 1,
-        explanation: "When two singular nouns express a single compound idea or item (like 'bread and butter'), they take a singular verb ('is').",
+        explanation: "When two singular nouns express a single compound idea (like 'bread and butter'), they take a singular verb ('is').",
         difficulty: "Medium"
       },
       {
@@ -237,7 +222,7 @@
         sentence: "Ten kilometers are a long distance to walk in this heavy rain.",
         options: ["Ten kilometers", "are a long", "distance to walk", "No Error"],
         answer: 1,
-        explanation: "A specific measurement of distance or quantity viewed as a single unit takes a singular verb: 'is a long distance'.",
+        explanation: "A specific measurement of distance viewed as a single unit takes a singular verb: 'is a long distance'.",
         difficulty: "Medium"
       },
       {
@@ -279,11 +264,9 @@
         sentence: "Physics are my favorite subject because I enjoy learning about motion.",
         options: ["Physics are", "my favorite subject", "because I enjoy", "No Error"],
         answer: 0,
-        explanation: "Names of academic disciplines ending in -s (Physics, Mathematics, Civics) are singular: 'Physics is'.",
+        explanation: "Names of academic disciplines ending in -s (Physics, Mathematics) are singular: 'Physics is'.",
         difficulty: "Easy"
       },
-
-      // --- Tenses, Auxiliaries & Modals ---
       {
         sentence: "He has finished his homework yesterday before going out to play.",
         options: ["He has finished", "his homework yesterday", "before going out", "No Error"],
@@ -323,7 +306,7 @@
         sentence: "The children were playing outside until it began to rain heavily.",
         options: ["The children were", "playing outside until", "it began to rain", "No Error"],
         answer: 3,
-        explanation: "The sentence is grammatically sound. 'No Error' is correct.",
+        explanation: "The sentence is grammatically sound. 'No Error'.",
         difficulty: "Easy"
       },
       {
@@ -354,8 +337,6 @@
         explanation: "Actions ongoing in the past during 'while' require Past Continuous: 'was explaining'.",
         difficulty: "Medium"
       },
-
-      // --- Prepositions & Phrasal Idioms ---
       {
         sentence: "He congratulated his friend for winning the first prize in debate.",
         options: ["He congratulated", "his friend for", "winning the first", "No Error"],
@@ -367,7 +348,7 @@
         sentence: "The cat jumped into the sofa and took a comfortable nap.",
         options: ["The cat jumped", "into the sofa", "and took a", "No Error"],
         answer: 1,
-        explanation: "'Into' indicates entering an enclosed interior. For a sofa surface, use 'onto' ('jumped onto the sofa').",
+        explanation: "'Into' indicates an enclosed interior. For a sofa surface, use 'onto' ('jumped onto the sofa').",
         difficulty: "Easy"
       },
       {
@@ -402,7 +383,7 @@
         sentence: "We walked across the street and entered the bookstore together.",
         options: ["We walked across", "the street and", "entered the bookstore", "No Error"],
         answer: 3,
-        explanation: "The prepositions and verb complements are used correctly. 'No Error'.",
+        explanation: "The prepositions and verbs are used correctly. 'No Error'.",
         difficulty: "Easy"
       },
       {
@@ -426,20 +407,18 @@
         explanation: "The verb 'prefer' takes 'to', not 'than' ('prefers tea to coffee').",
         difficulty: "Easy"
       },
-
-      // --- Articles & Determiners ---
       {
         sentence: "Rohan is an honest boy who always returns lost items.",
         options: ["Rohan is an", "honest boy who", "always returns lost", "No Error"],
         answer: 3,
-        explanation: "Correct. 'Honest' starts with a vowel sound (/ɒ/), so 'an honest' is proper English.",
+        explanation: "Correct. 'Honest' starts with a vowel sound, so 'an honest' is proper English.",
         difficulty: "Easy"
       },
       {
         sentence: "He wants to become a astronaut and explore outer space.",
         options: ["He wants to", "become a astronaut", "and explore outer", "No Error"],
         answer: 1,
-        explanation: "'Astronaut' starts with a vowel sound (/æ/), requiring 'an astronaut'.",
+        explanation: "'Astronaut' starts with a vowel sound, requiring 'an astronaut'.",
         difficulty: "Easy"
       },
       {
@@ -453,7 +432,7 @@
         sentence: "I met an European tourist who was asking for directions to the museum.",
         options: ["I met an", "European tourist who", "was asking for", "No Error"],
         answer: 0,
-        explanation: "'European' begins with a consonant sound (/j/), so use 'a European', not 'an'.",
+        explanation: "'European' begins with a consonant 'y' sound, so use 'a European', not 'an'.",
         difficulty: "Medium"
       },
       {
@@ -467,11 +446,9 @@
         sentence: "Can you lend me few dollars until I visit the bank tomorrow?",
         options: ["Can you lend", "me few dollars", "until I visit", "No Error"],
         answer: 1,
-        explanation: "'Few' means almost none (negative); 'a few' means some (positive). It should be 'a few dollars'.",
+        explanation: "'Few' means almost none; 'a few' means some. It should be 'a few dollars'.",
         difficulty: "Medium"
       },
-
-      // --- Pronouns & Modifiers ---
       {
         sentence: "Me and Rahul decided to volunteer at the animal shelter.",
         options: ["Me and Rahul", "decided to volunteer", "at the animal", "No Error"],
@@ -490,14 +467,14 @@
         sentence: "The dog wagged it's tail enthusiastically when its master returned.",
         options: ["The dog wagged", "it's tail enthusiastically", "when its master", "No Error"],
         answer: 1,
-        explanation: "'It's' is a contraction for 'it is'. The possessive form is 'its tail'.",
+        explanation: "'It's' is a contraction for 'it is'. The possessive pronoun is 'its tail'.",
         difficulty: "Easy"
       },
       {
         sentence: "Anyone who loses their library card will be charged a penalty.",
         options: ["Anyone who loses", "their library card", "will be charged", "No Error"],
         answer: 3,
-        explanation: "Singular 'their' with indefinite pronouns like 'anyone' is fully accepted in modern standard grammar. 'No Error'.",
+        explanation: "Singular 'their' with indefinite pronouns like 'anyone' is standard. 'No Error'.",
         difficulty: "Medium"
       },
       {
@@ -525,23 +502,21 @@
         sentence: "Of the two brothers, Kevin is undoubtedly the smartest.",
         options: ["Of the two brothers", "Kevin is undoubtedly", "the smartest", "No Error"],
         answer: 2,
-        explanation: "When comparing two entities, use the comparative degree: 'the smarter', not the superlative 'smartest'.",
+        explanation: "When comparing two entities, use the comparative degree: 'the smarter', not the superlative.",
         difficulty: "Medium"
       },
-
-      // --- Redundancy, Word Choice & Common Confusions ---
       {
         sentence: "Please return back the borrowed textbook by next Monday afternoon.",
         options: ["Please return back", "the borrowed textbook", "by next Monday", "No Error"],
         answer: 0,
-        explanation: "'Return' already means to give back. Saying 'return back' is a redundant error.",
+        explanation: "'Return' already means to give back. Saying 'return back' is redundant.",
         difficulty: "Easy"
       },
       {
         sentence: "The climate of San Diego is warmer than Seattle in winter.",
         options: ["The climate of", "San Diego is", "warmer than Seattle", "No Error"],
         answer: 2,
-        explanation: "Faulty comparison: compare climate with climate, not climate with a city: 'warmer than that of Seattle'.",
+        explanation: "Faulty comparison: compare climate with climate: 'warmer than that of Seattle'.",
         difficulty: "Medium"
       },
       {
@@ -573,15 +548,11 @@
         difficulty: "Medium"
       }
     ];
-    
-    ];
 
     let currentQuestions = [];
     let currentIndex = 0;
     let currentScore = 0;
-
-    // Student Data Structure
-    let currentUser = {
+       let currentUser = {
       name: "",
       school: "",
       grade: "",
@@ -602,7 +573,6 @@
         return;
       }
 
-      // Load or initialize user session
       const stored = localStorage.getItem(`ninja_${name}_${school}`);
       if (stored) {
         currentUser = JSON.parse(stored);
@@ -610,13 +580,11 @@
         currentUser = { name, school, grade, section, testsCompleted: 0, totalQuestions: 0, totalCorrect: 0 };
       }
 
-      // Pick 5 random questions
       const shuffled = [...questionBank].sort(() => 0.5 - Math.random());
       currentQuestions = shuffled.slice(0, 5);
       currentIndex = 0;
       currentScore = 0;
 
-      // Switch screen
       document.getElementById("reg-screen").classList.add("hidden");
       document.getElementById("result-screen").classList.add("hidden");
       document.getElementById("quiz-screen").classList.remove("hidden");
@@ -642,9 +610,7 @@
         btn.onclick = () => selectOption(idx, btn);
         optionsBox.appendChild(btn);
       });
-    }
-
-    function selectOption(selectedIdx, btnElement) {
+      function selectOption(selectedIdx, btnElement) {
       const q = currentQuestions[currentIndex];
       const buttons = document.getElementById("options-container").querySelectorAll("button");
       buttons.forEach(b => b.disabled = true);
@@ -674,12 +640,10 @@
     }
 
     function finishQuiz() {
-      // Update cumulative stats
       currentUser.testsCompleted += 1;
       currentUser.totalQuestions += 5;
       currentUser.totalCorrect += currentScore;
 
-      // Save to localStorage
       localStorage.setItem(`ninja_${currentUser.name}_${currentUser.school}`, JSON.stringify(currentUser));
       updateLeaderboard(currentUser);
 
@@ -744,36 +708,29 @@
 
       document.getElementById("reg-screen").classList.add("hidden");
       document.getElementById("leaderboard-screen").classList.remove("hidden");
-    }
-
-    function backToHome() {
+    }function backToHome() {
       document.getElementById("leaderboard-screen").classList.add("hidden");
       document.getElementById("result-screen").classList.add("hidden");
       document.getElementById("quiz-screen").classList.add("hidden");
       document.getElementById("reg-screen").classList.remove("hidden");
     }
 
-    // Dynamic Certificate Drawing & Download
     function downloadCertificate() {
       const canvas = document.getElementById("certCanvas");
       const ctx = canvas.getContext("2d");
       const cumPercent = Math.round((currentUser.totalCorrect / currentUser.totalQuestions) * 100);
 
-      // Background
       ctx.fillStyle = "#FAF8F5";
       ctx.fillRect(0, 0, 1000, 700);
 
-      // Outer Border
       ctx.strokeStyle = "#4F46E5";
       ctx.lineWidth = 14;
       ctx.strokeRect(20, 20, 960, 660);
 
-      // Inner Gold Border
       ctx.strokeStyle = "#F59E0B";
       ctx.lineWidth = 4;
       ctx.strokeRect(34, 34, 932, 632);
 
-      // Header Decorative Elements
       ctx.fillStyle = "#4F46E5";
       ctx.font = "bold 22px Poppins, sans-serif";
       ctx.textAlign = "center";
@@ -787,23 +744,19 @@
       ctx.font = "16px Poppins, sans-serif";
       ctx.fillText("This certificate is proudly awarded to", 500, 210);
 
-      // Student Name
       ctx.fillStyle = "#DB2777";
       ctx.font = "bold 34px Poppins, sans-serif";
       ctx.fillText(currentUser.name, 500, 260);
 
-      // Details: Class, Section, School
       ctx.fillStyle = "#374151";
       ctx.font = "600 18px Poppins, sans-serif";
       ctx.fillText(`Class: ${currentUser.grade}  |  Section: ${currentUser.section}`, 500, 310);
       ctx.fillText(`School: ${currentUser.school}`, 500, 345);
 
-      // Achievement Details
       ctx.fillStyle = "#4B5563";
       ctx.font = "16px Poppins, sans-serif";
       ctx.fillText("For successfully mastering spot-the-error exercises with cumulative metrics:", 500, 410);
 
-      // Metric Badge Boxes
       ctx.fillStyle = "#EEF2FF";
       ctx.fillRect(250, 440, 220, 80);
       ctx.fillRect(530, 440, 220, 80);
@@ -820,14 +773,12 @@
       ctx.font = "12px Poppins, sans-serif";
       ctx.fillText("CUMULATIVE SCORE", 640, 505);
 
-      // Date & Signature Stamp
       ctx.fillStyle = "#6B7280";
       ctx.font = "14px Poppins, sans-serif";
       const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
       ctx.fillText(`Awarded on: ${today}`, 280, 600);
       ctx.fillText("Verified by: English Grammar Ninja Engine", 700, 600);
 
-      // Trigger Download
       const link = document.createElement("a");
       link.download = `${currentUser.name.replace(/\s+/g, '_')}_Grammar_Certificate.png`;
       link.href = canvas.toDataURL("image/png");
@@ -836,3 +787,7 @@
   </script>
 </body>
 </html>
+      
+    }
+
+    
