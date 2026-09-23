@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grammar Ninja 🎯 Spot the Error</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+    .serif-title { font-family: 'Playfair Display', serif; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 min-h-screen text-slate-800 p-4 sm:p-6 flex items-center justify-center">
+
+  <div class="max-w-2xl w-full bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl p-6 sm:p-8 border-4 border-yellow-300 relative overflow-hidden">
+    
+    <!-- Header -->
+    <header class="text-center mb-6">
+      <div class="inline-block bg-yellow-400 text-yellow-900 px-4 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider mb-2 shadow-sm">
+        Level: Teens (12 - 16 Years)
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">
+        Grammar Detective 🕵️‍♂️
+      </h1>
+      <p class="text-sm font-semibold text-gray-500 mt-1">Spot the error and become a Grammar Master!</p>
+    </header>
+
+    <!-- SECTION 1: REGISTRATION / HOME -->
+    <section id="reg-screen" class="space-y-4">
+      <div class="bg-purple-50 p-5 rounded-2xl border-2 border-purple-200">
+        <h2 class="text-lg font-bold text-purple-800 mb-3">Student Profile</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-gray-600 mb-1">Full Name</label>
+            <input id="studentName" type="text" placeholder="e.g. Alex Johnson" class="w-full p-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none font-medium text-sm" required />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-600 mb-1">School Name</label>
+            <input id="schoolName" type="text" placeholder="e.g. St. Jude High School" class="w-full p-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none font-medium text-sm" required />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-600 mb-1">Class / Grade</label>
+            <input id="studentClass" type="text" placeholder="e.g. Class 8 / 9th Grade" class="w-full p-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none font-medium text-sm" required />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-600 mb-1">Section</label>
+            <input id="studentSection" type="text" placeholder="e.g. A / B" class="w-full p-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none font-medium text-sm" required />
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button onclick="startQuiz()" class="flex-1 bg-gradient-to-r from-green-400 to-emerald-500 text-white font-bold py-3.5 px-6 rounded-2xl shadow-lg hover:opacity-90 transform active:scale-95 transition-all text-center">
+          🚀 Start 5-Question Test
+        </button>
+        <button onclick="showLeaderboard()" class="bg-yellow-400 text-yellow-950 font-bold py-3.5 px-6 rounded-2xl shadow-lg hover:bg-yellow-300 transform active:scale-95 transition-all text-center">
+          🏆 Leaderboard
+        </button>
+      </div>
+    </section>
+
+    <!-- SECTION 2: QUIZ -->
+    <section id="quiz-screen" class="hidden space-y-5">
+      <div class="flex justify-between items-center bg-gray-100 p-3 rounded-2xl font-bold text-xs text-gray-600">
+        <span id="question-progress">Question 1 of 5</span>
+        <span id="difficulty-badge" class="bg-indigo-100 text-indigo-700 px-2.5 py-0.5 rounded-full uppercase">Easy</span>
+      </div>
+
+      <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+        <p class="text-xs uppercase font-extrabold tracking-wide text-purple-600 mb-2">Find the part with the error:</p>
+        <p id="sentence-prompt" class="text-lg font-bold text-slate-800 leading-snug"></p>
+      </div>
+
+      <div id="options-container" class="grid grid-cols-1 gap-2.5">
+        <!-- Option buttons dynamically generated -->
+      </div>
+
+      <div id="explanation-box" class="hidden p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-xs font-medium text-amber-900 leading-relaxed">
+        <!-- Explanation on click -->
+      </div>
+
+      <button id="next-btn" onclick="nextQuestion()" class="hidden w-full bg-indigo-600 text-white font-bold py-3 rounded-2xl shadow hover:bg-indigo-700">
+        Next Question ➡️
+      </button>
+    </section>
+
+    <!-- SECTION 3: RESULT & CUMULATIVE STATS -->
+    <section id="result-screen" class="hidden text-center space-y-5">
+      <div class="text-5xl" id="trophy-icon">🎉</div>
+      <h2 class="text-2xl font-black text-gray-800" id="result-title">Great Job!</h2>
+      
+      <div class="grid grid-cols-2 gap-3 text-left">
+        <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100">
+          <p class="text-xs font-semibold text-blue-600">This Round</p>
+          <p id="round-score" class="text-2xl font-extrabold text-blue-900">0 / 5</p>
+        </div>
+        <div class="bg-purple-50 p-4 rounded-2xl border border-purple-100">
+          <p class="text-xs font-semibold text-purple-600">Cumulative Score</p>
+          <p id="cumulative-score" class="text-2xl font-extrabold text-purple-900">0%</p>
+          <span id="tests-taken-badge" class="text-[11px] font-semibold text-purple-500">1 test completed</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button onclick="downloadCertificate()" class="flex-1 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold py-3 rounded-2xl shadow hover:opacity-95">
+          📜 Download Certificate
+        </button>
+        <button onclick="startQuiz()" class="flex-1 bg-emerald-500 text-white font-bold py-3 rounded-2xl shadow hover:bg-emerald-600">
+          🔄 Retake Test
+        </button>
+      </div>
+
+      <button onclick="backToHome()" class="text-xs font-bold text-gray-500 hover:text-gray-700 underline">
+        Back to Profile / Menu
+      </button>
+    </section>
+
+    <!-- SECTION 4: LEADERBOARD -->
+    <section id="leaderboard-screen" class="hidden space-y-4">
+      <h2 class="text-2xl font-black text-center text-purple-700">🏆 Top Detectives</h2>
+      <div class="max-h-64 overflow-y-auto space-y-2 pr-1" id="leaderboard-list">
+        <!-- Dynamically injected -->
+      </div>
+      <button onclick="backToHome()" class="w-full bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl hover:bg-slate-300">
+        Back
+      </button>
+    </section>
+
+  </div>
+
+  <!-- Hidden Canvas for Certificate Generation -->
+  <canvas id="certCanvas" width="1000" height="700" class="hidden"></canvas>
+
+  <script>
+    const combinedQuestionBank = [...questionBank, ...additionalQuestions];
+    
+    // Question Bank: Easy and Medium Error Spotting for 12-16 yrs
+    const questionBank = [
+      {
+        sentence: "Neither of the boys were present at the assembly this morning.",
+        options: ["Neither of", "the boys", "were present", "No Error"],
+        answer: 2,
+        explanation: "'Neither' is singular when referring to individuals in a group, so it should be 'was present'.",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "She didn't knew that the library was closed on Sundays.",
+        options: ["She didn't", "knew that", "was closed", "No Error"],
+        answer: 1,
+        explanation: "After auxiliary 'did / didn't', use the base form of verb: 'didn't know'.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "The team is playing good today despite the rain.",
+        options: ["The team", "is playing", "good today", "No Error"],
+        answer: 2,
+        explanation: "'Good' is an adjective. An adverb is needed to modify the verb 'playing': 'playing well'.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "One of my friends have won a scholarship to study abroad.",
+        options: ["One of", "my friends", "have won", "No Error"],
+        answer: 2,
+        explanation: "The true subject is 'One', which is singular. It must be 'has won'.",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "He is senior than me in both age and experience.",
+        options: ["He is", "senior than me", "in both age", "No Error"],
+        answer: 1,
+        explanation: "Adjectives like senior, junior, and superior take 'to', not 'than' ('senior to me').",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "They went to the market and bought many fruits and vegetables.",
+        options: ["They went", "to the market", "bought many fruits", "No Error"],
+        answer: 3,
+        explanation: "The sentence is grammatically correct! 'No Error' is the right choice.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "Every student must bring their own compass for the geometry exam.",
+        options: ["Every student", "must bring", "their own compass", "No Error"],
+        answer: 2,
+        explanation: "Traditionally, 'Every student' is singular and takes 'his or her' (or colloquially accepted 'their' in informal English; in prescriptive tests, it's flagged).",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "She has been waiting for the bus since two hours.",
+        options: ["She has been", "waiting for", "since two hours", "No Error"],
+        answer: 2,
+        explanation: "For a duration of time (two hours), use 'for', not 'since'.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "The sun rises in east and sets in the west.",
+        options: ["The sun", "rises in east", "and sets in", "No Error"],
+        answer: 1,
+        explanation: "Directions require the definite article 'the' ('in the east').",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "If I was you, I would report the incident immediately.",
+        options: ["If I was you", "I would report", "the incident", "No Error"],
+        answer: 0,
+        explanation: "In hypothetical/subjunctive conditionals, use 'were' ('If I were you').",
+        difficulty: "Medium"
+      },
+          // 50 Additional Questions for 12-16 Years (Easy & Medium)
+    const additionalQuestions = [
+      // --- Subject-Verb Agreement & Quantifiers ---
+      {
+        sentence: "Bread and butter are his favorite breakfast every single morning.",
+        options: ["Bread and butter", "are his favorite", "breakfast every", "No Error"],
+        answer: 1,
+        explanation: "When two singular nouns express a single compound idea or item (like 'bread and butter'), they take a singular verb ('is').",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "A pack of wolves were seen roaming near the outskirts of the town.",
+        options: ["A pack of", "wolves were seen", "roaming near", "No Error"],
+        answer: 1,
+        explanation: "The collective noun 'pack' is singular, so it should be 'was seen', not 'were seen'.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "The captain, along with all the players, have arrived on the field.",
+        options: ["The captain", "along with all", "the players, have", "No Error"],
+        answer: 2,
+        explanation: "Parenthetical phrases like 'along with' do not change the subject. The singular subject 'captain' requires 'has arrived'.",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "Ten kilometers are a long distance to walk in this heavy rain.",
+        options: ["Ten kilometers", "are a long", "distance to walk", "No Error"],
+        answer: 1,
+        explanation: "A specific measurement of distance or quantity viewed as a single unit takes a singular verb: 'is a long distance'.",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "Each of the participants have received a certificate of completion.",
+        options: ["Each of the", "participants have", "received a", "No Error"],
+        answer: 1,
+        explanation: "'Each' is an indefinite pronoun that takes a singular verb: 'has received'.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "Neither the teacher nor the students was ready for the sudden inspection.",
+        options: ["Neither the teacher", "nor the students", "was ready for", "No Error"],
+        answer: 2,
+        explanation: "In 'neither... nor', the verb agrees with the closer subject ('students', plural), so it must be 'were ready'.",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "The scissors on the teacher's desk is very sharp and dangerous.",
+        options: ["The scissors", "on the teacher's desk", "is very sharp", "No Error"],
+        answer: 2,
+        explanation: "'Scissors' is a plural noun and takes a plural verb: 'are very sharp'.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "A large number of students has registered for the science exhibition.",
+        options: ["A large number", "of students has", "registered for", "No Error"],
+        answer: 1,
+        explanation: "'A number of' takes a plural verb ('have registered'), unlike 'The number of' which takes a singular verb.",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "The quality of these mangoes are not as good as last year.",
+        options: ["The quality of", "these mangoes are", "not as good", "No Error"],
+        answer: 1,
+        explanation: "The subject is 'quality' (singular), not 'mangoes'. It should be 'is not as good'.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "Physics are my favorite subject because I enjoy learning about motion.",
+        options: ["Physics are", "my favorite subject", "because I enjoy", "No Error"],
+        answer: 0,
+        explanation: "Names of academic disciplines ending in -s (Physics, Mathematics, Civics) are singular: 'Physics is'.",
+        difficulty: "Easy"
+      },
+
+      // --- Tenses, Auxiliaries & Modals ---
+      {
+        sentence: "He has finished his homework yesterday before going out to play.",
+        options: ["He has finished", "his homework yesterday", "before going out", "No Error"],
+        answer: 0,
+        explanation: "Past time markers like 'yesterday' require Simple Past ('He finished'), not Present Perfect.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "By the time the doctor arrived, the patient had already recovered.",
+        options: ["By the time", "the doctor arrived", "had already recovered", "No Error"],
+        answer: 3,
+        explanation: "The sentence is grammatically correct. The earlier past action correctly uses Past Perfect ('had recovered').",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "She can sings very melodiously when she performs on stage.",
+        options: ["She can sings", "very melodiously", "when she performs", "No Error"],
+        answer: 0,
+        explanation: "Modal verbs (can, could, may, might, must) are followed by the base form of the verb: 'can sing'.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "I am knowing the answer to this riddle since yesterday.",
+        options: ["I am knowing", "the answer to", "this riddle since", "No Error"],
+        answer: 0,
+        explanation: "'Know' is a stative verb and is not used in continuous tenses. Use 'I have known'.",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "They had left the station before the train has arrived.",
+        options: ["They had left", "the station before", "the train has arrived", "No Error"],
+        answer: 2,
+        explanation: "In past sequences with 'before', use Simple Past for the later action: 'the train arrived'.",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "The children were playing outside until it began to rain heavily.",
+        options: ["The children were", "playing outside until", "it began to rain", "No Error"],
+        answer: 3,
+        explanation: "The sentence is grammatically sound. 'No Error' is correct.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "Did you bought the new notebook required for art class?",
+        options: ["Did you bought", "the new notebook", "required for", "No Error"],
+        answer: 0,
+        explanation: "The auxiliary 'did' takes the base verb form: 'Did you buy'.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "If she studies consistently, she will pass the entrance examination.",
+        options: ["If she studies", "consistently, she", "will pass the", "No Error"],
+        answer: 3,
+        explanation: "Standard first conditional sentence (Present Simple + will + base verb). Correct.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "If I would have known about the test, I would have prepared better.",
+        options: ["If I would have", "known about the", "test, I would have", "No Error"],
+        answer: 0,
+        explanation: "Third conditional 'if' clauses take Past Perfect ('If I had known'), not 'would have'.",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "The bell rang while the teacher explained the homework assignment.",
+        options: ["The bell rang", "while the teacher", "explained the homework", "No Error"],
+        answer: 2,
+        explanation: "Actions ongoing in the past during 'while' require Past Continuous: 'was explaining'.",
+        difficulty: "Medium"
+      },
+
+      // --- Prepositions & Phrasal Idioms ---
+      {
+        sentence: "He congratulated his friend for winning the first prize in debate.",
+        options: ["He congratulated", "his friend for", "winning the first", "No Error"],
+        answer: 1,
+        explanation: "The verb 'congratulate' takes the preposition 'on', not 'for' ('congratulated him on winning').",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "The cat jumped into the sofa and took a comfortable nap.",
+        options: ["The cat jumped", "into the sofa", "and took a", "No Error"],
+        answer: 1,
+        explanation: "'Into' indicates entering an enclosed interior. For a sofa surface, use 'onto' ('jumped onto the sofa').",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "The teacher distributed the sweets between all thirty children.",
+        options: ["The teacher distributed", "the sweets between", "all thirty children", "No Error"],
+        answer: 1,
+        explanation: "Use 'between' for two entities, and 'among' for three or more ('among all thirty children').",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "She is good in solving complex algebraic problems quickly.",
+        options: ["She is good", "in solving", "complex algebraic", "No Error"],
+        answer: 1,
+        explanation: "To express skill or competence, use 'good at', not 'good in' ('good at solving').",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "Despite of his honest efforts, he could not clear the hurdle.",
+        options: ["Despite of", "his honest efforts", "he could not clear", "No Error"],
+        answer: 0,
+        explanation: "'Despite' never takes 'of'. Use either 'Despite' or 'In spite of'.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "He prevented the toddler to touch the hot stove surface.",
+        options: ["He prevented", "the toddler to touch", "the hot stove", "No Error"],
+        answer: 1,
+        explanation: "'Prevent' is followed by 'from + gerund': 'prevented the toddler from touching'.",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "We walked across the street and entered the bookstore together.",
+        options: ["We walked across", "the street and", "entered the bookstore", "No Error"],
+        answer: 3,
+        explanation: "The prepositions and verb complements are used correctly. 'No Error'.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "He is capable to do much better in his semester tests.",
+        options: ["He is capable", "to do much", "better in his", "No Error"],
+        answer: 1,
+        explanation: "'Capable' takes the preposition 'of' followed by a gerund: 'capable of doing'.",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "The school is situated adjacent with the central railway station.",
+        options: ["The school is", "situated adjacent with", "the central railway", "No Error"],
+        answer: 1,
+        explanation: "'Adjacent' takes the preposition 'to' ('adjacent to'), not 'with'.",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "My grandfather prefers green tea than sweet black coffee.",
+        options: ["My grandfather", "prefers green tea", "than sweet black", "No Error"],
+        answer: 2,
+        explanation: "The verb 'prefer' takes 'to', not 'than' ('prefers tea to coffee').",
+        difficulty: "Easy"
+      },
+
+      // --- Articles & Determiners ---
+      {
+        sentence: "Rohan is an honest boy who always returns lost items.",
+        options: ["Rohan is an", "honest boy who", "always returns lost", "No Error"],
+        answer: 3,
+        explanation: "Correct. 'Honest' starts with a vowel sound (/ɒ/), so 'an honest' is proper English.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "He wants to become a astronaut and explore outer space.",
+        options: ["He wants to", "become a astronaut", "and explore outer", "No Error"],
+        answer: 1,
+        explanation: "'Astronaut' starts with a vowel sound (/æ/), requiring 'an astronaut'.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "She plays violin better than anyone else in our orchestra.",
+        options: ["She plays violin", "better than anyone", "else in our", "No Error"],
+        answer: 0,
+        explanation: "Musical instruments take the definite article 'the' when played: 'plays the violin'.",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "I met an European tourist who was asking for directions to the museum.",
+        options: ["I met an", "European tourist who", "was asking for", "No Error"],
+        answer: 0,
+        explanation: "'European' begins with a consonant sound (/j/), so use 'a European', not 'an'.",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "There is little hope left of recovering the lost camera.",
+        options: ["There is little", "hope left of", "recovering the lost", "No Error"],
+        answer: 3,
+        explanation: "Grammatically correct. 'Little' is used properly with uncountable nouns like 'hope'.",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "Can you lend me few dollars until I visit the bank tomorrow?",
+        options: ["Can you lend", "me few dollars", "until I visit", "No Error"],
+        answer: 1,
+        explanation: "'Few' means almost none (negative); 'a few' means some (positive). It should be 'a few dollars'.",
+        difficulty: "Medium"
+      },
+
+      // --- Pronouns & Modifiers ---
+      {
+        sentence: "Me and Rahul decided to volunteer at the animal shelter.",
+        options: ["Me and Rahul", "decided to volunteer", "at the animal", "No Error"],
+        answer: 0,
+        explanation: "Use the subjective pronoun in subject position: 'Rahul and I decided'.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "Between you and I, this secret must never be revealed to anyone.",
+        options: ["Between you and I", "this secret must", "never be revealed", "No Error"],
+        answer: 0,
+        explanation: "Prepositions govern objective pronouns: 'Between you and me'.",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "The dog wagged it's tail enthusiastically when its master returned.",
+        options: ["The dog wagged", "it's tail enthusiastically", "when its master", "No Error"],
+        answer: 1,
+        explanation: "'It's' is a contraction for 'it is'. The possessive form is 'its tail'.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "Anyone who loses their library card will be charged a penalty.",
+        options: ["Anyone who loses", "their library card", "will be charged", "No Error"],
+        answer: 3,
+        explanation: "Singular 'their' with indefinite pronouns like 'anyone' is fully accepted in modern standard grammar. 'No Error'.",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "She is the girl whom scored top marks in the mathematics olympiad.",
+        options: ["She is the girl", "whom scored top", "marks in the", "No Error"],
+        answer: 1,
+        explanation: "The pronoun acts as the subject of the clause ('scored top marks'), requiring 'who', not 'whom'.",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "This car is more faster than our previous family vehicle.",
+        options: ["This car is", "more faster than", "our previous family", "No Error"],
+        answer: 1,
+        explanation: "Avoid double comparatives. Use simply 'faster', not 'more faster'.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "He ran quick to catch the school bus before it departed.",
+        options: ["He ran quick", "to catch the", "school bus before", "No Error"],
+        answer: 0,
+        explanation: "The verb 'ran' must be modified by an adverb: 'He ran quickly'.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "Of the two brothers, Kevin is undoubtedly the smartest.",
+        options: ["Of the two brothers", "Kevin is undoubtedly", "the smartest", "No Error"],
+        answer: 2,
+        explanation: "When comparing two entities, use the comparative degree: 'the smarter', not the superlative 'smartest'.",
+        difficulty: "Medium"
+      },
+
+      // --- Redundancy, Word Choice & Common Confusions ---
+      {
+        sentence: "Please return back the borrowed textbook by next Monday afternoon.",
+        options: ["Please return back", "the borrowed textbook", "by next Monday", "No Error"],
+        answer: 0,
+        explanation: "'Return' already means to give back. Saying 'return back' is a redundant error.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "The climate of San Diego is warmer than Seattle in winter.",
+        options: ["The climate of", "San Diego is", "warmer than Seattle", "No Error"],
+        answer: 2,
+        explanation: "Faulty comparison: compare climate with climate, not climate with a city: 'warmer than that of Seattle'.",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "Although it was raining heavily, but they continued playing football.",
+        options: ["Although it was", "raining heavily, but", "they continued playing", "No Error"],
+        answer: 1,
+        explanation: "Do not use 'although' and 'but' together in the same sentence; remove 'but'.",
+        difficulty: "Easy"
+      },
+      {
+        sentence: "She could not bear the effect of the bitter medicine.",
+        options: ["She could not", "bear the effect", "of the bitter", "No Error"],
+        answer: 3,
+        explanation: "'Effect' is correctly used here as a noun denoting the result or impact. 'No Error'.",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "Hardly had the match started when the floodlights went out.",
+        options: ["Hardly had", "the match started", "when the floodlights", "No Error"],
+        answer: 3,
+        explanation: "'Hardly... when' is the correct correlative conjunction pairing. 'No Error'.",
+        difficulty: "Medium"
+      },
+      {
+        sentence: "Scarcely had I entered the room than the telephone started ringing.",
+        options: ["Scarcely had I", "entered the room", "than the telephone", "No Error"],
+        answer: 2,
+        explanation: "'Scarcely' pairs with 'when' or 'before', never with 'than' ('when the telephone started ringing').",
+        difficulty: "Medium"
+      }
+    ];
+    
+    ];
+
+    let currentQuestions = [];
+    let currentIndex = 0;
+    let currentScore = 0;
+
+    // Student Data Structure
+    let currentUser = {
+      name: "",
+      school: "",
+      grade: "",
+      section: "",
+      testsCompleted: 0,
+      totalQuestions: 0,
+      totalCorrect: 0
+    };
+
+    function startQuiz() {
+      const name = document.getElementById("studentName").value.trim();
+      const school = document.getElementById("schoolName").value.trim();
+      const grade = document.getElementById("studentClass").value.trim();
+      const section = document.getElementById("studentSection").value.trim();
+
+      if (!name || !school || !grade || !section) {
+        alert("Please fill in Name, School, Class, and Section before starting!");
+        return;
+      }
+
+      // Load or initialize user session
+      const stored = localStorage.getItem(`ninja_${name}_${school}`);
+      if (stored) {
+        currentUser = JSON.parse(stored);
+      } else {
+        currentUser = { name, school, grade, section, testsCompleted: 0, totalQuestions: 0, totalCorrect: 0 };
+      }
+
+      // Pick 5 random questions
+      const shuffled = [...questionBank].sort(() => 0.5 - Math.random());
+      currentQuestions = shuffled.slice(0, 5);
+      currentIndex = 0;
+      currentScore = 0;
+
+      // Switch screen
+      document.getElementById("reg-screen").classList.add("hidden");
+      document.getElementById("result-screen").classList.add("hidden");
+      document.getElementById("quiz-screen").classList.remove("hidden");
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = currentQuestions[currentIndex];
+      document.getElementById("question-progress").innerText = `Question ${currentIndex + 1} of 5`;
+      document.getElementById("difficulty-badge").innerText = q.difficulty;
+      document.getElementById("sentence-prompt").innerText = `"${q.sentence}"`;
+
+      const optionsBox = document.getElementById("options-container");
+      optionsBox.innerHTML = "";
+      document.getElementById("explanation-box").classList.add("hidden");
+      document.getElementById("next-btn").classList.add("hidden");
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "w-full text-left p-3.5 rounded-xl border-2 border-gray-200 font-semibold text-gray-700 hover:border-purple-400 hover:bg-purple-50 transition";
+        btn.innerText = `${String.fromCharCode(65 + idx)}. ${opt}`;
+        btn.onclick = () => selectOption(idx, btn);
+        optionsBox.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedIdx, btnElement) {
+      const q = currentQuestions[currentIndex];
+      const buttons = document.getElementById("options-container").querySelectorAll("button");
+      buttons.forEach(b => b.disabled = true);
+
+      if (selectedIdx === q.answer) {
+        btnElement.classList.add("bg-green-100", "border-green-500", "text-green-800");
+        currentScore++;
+      } else {
+        btnElement.classList.add("bg-red-100", "border-red-500", "text-red-800");
+        buttons[q.answer].classList.add("bg-green-100", "border-green-500", "text-green-800");
+      }
+
+      const explanation = document.getElementById("explanation-box");
+      explanation.innerHTML = `<strong>Explanation:</strong> ${q.explanation}`;
+      explanation.classList.remove("hidden");
+
+      document.getElementById("next-btn").classList.remove("hidden");
+    }
+
+    function nextQuestion() {
+      currentIndex++;
+      if (currentIndex < 5) {
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function finishQuiz() {
+      // Update cumulative stats
+      currentUser.testsCompleted += 1;
+      currentUser.totalQuestions += 5;
+      currentUser.totalCorrect += currentScore;
+
+      // Save to localStorage
+      localStorage.setItem(`ninja_${currentUser.name}_${currentUser.school}`, JSON.stringify(currentUser));
+      updateLeaderboard(currentUser);
+
+      const cumPercent = Math.round((currentUser.totalCorrect / currentUser.totalQuestions) * 100);
+
+      document.getElementById("round-score").innerText = `${currentScore} / 5`;
+      document.getElementById("cumulative-score").innerText = `${cumPercent}%`;
+      document.getElementById("tests-taken-badge").innerText = `${currentUser.testsCompleted} test(s) completed (${currentUser.totalCorrect}/${currentUser.totalQuestions} total)`;
+
+      document.getElementById("quiz-screen").classList.add("hidden");
+      document.getElementById("result-screen").classList.remove("hidden");
+    }
+
+    function updateLeaderboard(user) {
+      let board = JSON.parse(localStorage.getItem("grammar_leaderboard") || "[]");
+      const existing = board.findIndex(u => u.name === user.name && u.school === user.school);
+      
+      const percent = Math.round((user.totalCorrect / user.totalQuestions) * 100);
+      const data = {
+        name: user.name,
+        school: user.school,
+        tests: user.testsCompleted,
+        percentage: percent
+      };
+
+      if (existing >= 0) {
+        board[existing] = data;
+      } else {
+        board.push(data);
+      }
+
+      board.sort((a, b) => b.percentage - a.percentage || b.tests - a.tests);
+      localStorage.setItem("grammar_leaderboard", JSON.stringify(board.slice(0, 10)));
+    }
+
+    function showLeaderboard() {
+      const board = JSON.parse(localStorage.getItem("grammar_leaderboard") || "[]");
+      const list = document.getElementById("leaderboard-list");
+      list.innerHTML = "";
+
+      if (board.length === 0) {
+        list.innerHTML = `<p class="text-center text-sm text-gray-500 py-4">No detectives registered yet!</p>`;
+      } else {
+        board.forEach((b, i) => {
+          list.innerHTML += `
+            <div class="flex items-center justify-between p-3 bg-purple-50 rounded-xl border border-purple-100">
+              <div class="flex items-center space-x-3">
+                <span class="font-extrabold text-sm ${i === 0 ? 'text-yellow-600' : 'text-gray-400'}">#${i + 1}</span>
+                <div>
+                  <p class="text-sm font-bold text-gray-800">${b.name}</p>
+                  <p class="text-[11px] text-gray-500">${b.school}</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="text-sm font-black text-purple-700">${b.percentage}%</span>
+                <p class="text-[10px] text-gray-400">${b.tests} Tests</p>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      document.getElementById("reg-screen").classList.add("hidden");
+      document.getElementById("leaderboard-screen").classList.remove("hidden");
+    }
+
+    function backToHome() {
+      document.getElementById("leaderboard-screen").classList.add("hidden");
+      document.getElementById("result-screen").classList.add("hidden");
+      document.getElementById("quiz-screen").classList.add("hidden");
+      document.getElementById("reg-screen").classList.remove("hidden");
+    }
+
+    // Dynamic Certificate Drawing & Download
+    function downloadCertificate() {
+      const canvas = document.getElementById("certCanvas");
+      const ctx = canvas.getContext("2d");
+      const cumPercent = Math.round((currentUser.totalCorrect / currentUser.totalQuestions) * 100);
+
+      // Background
+      ctx.fillStyle = "#FAF8F5";
+      ctx.fillRect(0, 0, 1000, 700);
+
+      // Outer Border
+      ctx.strokeStyle = "#4F46E5";
+      ctx.lineWidth = 14;
+      ctx.strokeRect(20, 20, 960, 660);
+
+      // Inner Gold Border
+      ctx.strokeStyle = "#F59E0B";
+      ctx.lineWidth = 4;
+      ctx.strokeRect(34, 34, 932, 632);
+
+      // Header Decorative Elements
+      ctx.fillStyle = "#4F46E5";
+      ctx.font = "bold 22px Poppins, sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("CERTIFICATE OF EXCELLENCE", 500, 100);
+
+      ctx.fillStyle = "#111827";
+      ctx.font = "bold 38px 'Playfair Display', serif";
+      ctx.fillText("Grammar Detective Award", 500, 150);
+
+      ctx.fillStyle = "#6B7280";
+      ctx.font = "16px Poppins, sans-serif";
+      ctx.fillText("This certificate is proudly awarded to", 500, 210);
+
+      // Student Name
+      ctx.fillStyle = "#DB2777";
+      ctx.font = "bold 34px Poppins, sans-serif";
+      ctx.fillText(currentUser.name, 500, 260);
+
+      // Details: Class, Section, School
+      ctx.fillStyle = "#374151";
+      ctx.font = "600 18px Poppins, sans-serif";
+      ctx.fillText(`Class: ${currentUser.grade}  |  Section: ${currentUser.section}`, 500, 310);
+      ctx.fillText(`School: ${currentUser.school}`, 500, 345);
+
+      // Achievement Details
+      ctx.fillStyle = "#4B5563";
+      ctx.font = "16px Poppins, sans-serif";
+      ctx.fillText("For successfully mastering spot-the-error exercises with cumulative metrics:", 500, 410);
+
+      // Metric Badge Boxes
+      ctx.fillStyle = "#EEF2FF";
+      ctx.fillRect(250, 440, 220, 80);
+      ctx.fillRect(530, 440, 220, 80);
+
+      ctx.fillStyle = "#4F46E5";
+      ctx.font = "bold 26px Poppins, sans-serif";
+      ctx.fillText(`${currentUser.testsCompleted}`, 360, 480);
+      ctx.font = "12px Poppins, sans-serif";
+      ctx.fillText("TESTS COMPLETED", 360, 505);
+
+      ctx.fillStyle = "#059669";
+      ctx.font = "bold 26px Poppins, sans-serif";
+      ctx.fillText(`${cumPercent}%`, 640, 480);
+      ctx.font = "12px Poppins, sans-serif";
+      ctx.fillText("CUMULATIVE SCORE", 640, 505);
+
+      // Date & Signature Stamp
+      ctx.fillStyle = "#6B7280";
+      ctx.font = "14px Poppins, sans-serif";
+      const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+      ctx.fillText(`Awarded on: ${today}`, 280, 600);
+      ctx.fillText("Verified by: English Grammar Ninja Engine", 700, 600);
+
+      // Trigger Download
+      const link = document.createElement("a");
+      link.download = `${currentUser.name.replace(/\s+/g, '_')}_Grammar_Certificate.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    }
+  </script>
+</body>
+</html>
